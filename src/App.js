@@ -1,28 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
+  state = {
+    pokemon: {
+      sprites: {
+        front_default: ""
+      }
+    },
+    query: ''
+  }
+  
   render() {
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+
+        <form onSubmit={event => this.search(event)}>
+          <input 
+            type="text"
+            value={this.state.query}
+            onChange={event => this.handleQueryChange(event)}/>
+          <button type="submit">Search</button>
+        </form>
+
+        <h2>{this.state.pokemon.name}</h2>
+        <img src={this.state.pokemon.sprites.front_default} />
+
       </div>
     );
   }
+
+  handleQueryChange(event) {
+    this.setState({
+      query: event.target.value,
+    });
+  }
+
+  search(event) {
+    event.preventDefault();
+
+    axios.get('https://pokeapi.co/api/v2/pokemon/' + this.state.query)
+      .then(response => {
+        this.setState({
+          pokemon: response.data,
+        });
+      });
+  }
+
+
 }
 
 export default App;
