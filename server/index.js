@@ -4,17 +4,17 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const myPokemon = [];
+const team = [];
 
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/api/myPokemon', (req, res) => {
+app.post('/api/team', (req, res) => {
     const pokemonID = req.body.id;
 
-    myPokemon.push(pokemonID);
+    team.push(pokemonID);
 
-    res.status(201).send(myPokemon);
+    res.status(201).send(team);
 });
 
 app.listen(3002, () => {
