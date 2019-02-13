@@ -12,10 +12,27 @@ app.use(bodyParser.json());
 app.post('/api/team', (req, res) => {
     const pokemonID = req.body.id;
 
-    team.push(pokemonID);
+    if(team.indexOf(pokemonID)){
+        team.push(pokemonID);
+    };
 
     res.status(201).send(team);
 });
+
+// app.patch('/api/team/:id', (req, res) => {
+//     const pokemonID = +req.params.id
+
+//     res.status(201).send()
+// })
+
+app.delete('/api/team/:id', (req, res) => {
+    const pokemonID = +req.params.id;
+
+    team.splice(team.indexOf(pokemonID), 1);
+
+    res.status(201).send(team);
+
+})
 
 app.listen(3002, () => {
     console.log('App is up and running at localhost:3002');

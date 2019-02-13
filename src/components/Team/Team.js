@@ -7,23 +7,32 @@ class Team extends Component {
     }
 
     componentWillReceiveProps(props) {
-        Promise.all(props.team.map(id => (
-            axios.get('https://pokeapi.co/api/v2/pokemon/' + id)
-                .then(response => response.data)
-        )))
-            .then(pokemon => {
-                this.setState({
-                    pokemon,
-                });
-             });
+        this.fetchPokemon(props.team);
     }
 
     render() {
-        const pokemon = this.state.pokemon
+        const pokemonArr = this.state.pokemon
             .map(pokemon => (
                 <div className="card" key={pokemon.id}>
                     <h3>{pokemon.name}</h3>
-                    <button type="button">Release</button>
+                    <p>{pokemon.level}</p>
+                    <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+                    <div>
+                        <button
+                            type="button"
+                            onClick={() => this.levelUp(pokemon.id)}
+                        >
+                            Train
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            type="button"
+                            onClick={() => this.removeFromTeam(pokemon.id)}
+                        >
+                            Release
+                        </button>
+                    </div>
                 </div>
             ));
 
@@ -31,9 +40,36 @@ class Team extends Component {
             <div>
                 <h2>Your Team</h2>
 
-                {pokemon}
+                {pokemonArr}
+
             </div>
         );
+    }
+
+    levelUp(id) {
+        // axios.patch('http://localhost:3002/api/team/' + id)
+        //     .then(response => {
+        //         this.fetchPokemon(response.data)
+        //     })
+    }
+
+    removeFromTeam(id) {
+        axios.delete('http://localhost:3002/api/team/' + id)
+            .then(response => {
+                this.fetchPokemon(response.data)
+            })
+    }
+
+    fetchPokemon(pokemon) {
+        Promise.all(pokemon.map(id => (
+            axios.get('https://pokeapi.co/api/v2/pokemon/' + id)
+                .then(response => response.data)
+        )))
+            .then(pokemon => {
+                this.setState({
+                    pokemon,
+                });
+            });
     }
 }
 

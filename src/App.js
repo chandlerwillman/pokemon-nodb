@@ -33,14 +33,15 @@ class App extends Component {
         </form>
 
         <h2>{this.state.pokemon.name}</h2>
-        <img src={this.state.pokemon.sprites.front_default} />
-        <button
-          type="button"
-          onClick={() => this.addToTeam(this.state.pokemon.id)}
-        >
-          I Choose You!
-        </button>
-
+        <img src={this.state.pokemon.sprites.front_default} alt={this.state.pokemon.name}/>
+        <div>
+          <button
+            type="button"
+            onClick={() => this.addToTeam(this.state.pokemon.id)}
+          >
+            I Choose You!
+          </button>
+        </div>
         <Team team={this.state.pokemonTeamIds} />
       </div>
     );
@@ -64,12 +65,20 @@ class App extends Component {
   }
 
   addToTeam(id) {
-    axios.post('http://localhost:3002/api/team', { id })
-      .then(response => {
-        this.setState({
-          pokemonTeamIds: response.data,
+    if(this.state.pokemonTeamIds.length >= 6){
+      
+      alert("You can only carry 6 pokemon at a time.");
+
+    } else{
+      
+      axios.post('http://localhost:3002/api/team', { id })
+        .then(response => {
+          this.setState({
+            pokemonTeamIds: response.data,
+          });
         });
-      });
+
+    };
   }
 }
 
