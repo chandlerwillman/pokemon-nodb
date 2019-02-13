@@ -4,6 +4,7 @@ import './App.css';
 
 import Header from './components/Header/Header';
 import Team from './components/Team/Team';
+import Badges from './components/Badges/Badges';
 
 class App extends Component {
   state = {
@@ -16,6 +17,15 @@ class App extends Component {
     query: ''
   }
   
+  componentWillMount() {
+    axios.get('http://localhost:3002/api/team')
+      .then(response => {
+        this.setState({
+          pokemonTeamIds: response.data,
+        });
+      });
+  }
+
   render() {
 
     return (
@@ -43,6 +53,7 @@ class App extends Component {
           </button>
         </div>
         <Team team={this.state.pokemonTeamIds} />
+        <Badges />
       </div>
     );
   }

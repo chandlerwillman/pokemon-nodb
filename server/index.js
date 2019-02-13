@@ -6,8 +6,14 @@ const app = express();
 
 const team = [];
 
+let badges = 0;
+
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get('/api/team', (req, res) => {
+    res.send(team);
+})
 
 app.post('/api/team', (req, res) => {
     const pokemonID = req.body.id;
@@ -18,6 +24,12 @@ app.post('/api/team', (req, res) => {
 
     res.status(201).send(team);
 });
+
+app.patch('/api/badges/:count', (req, res) => {
+    badges = +req.params.count + 1;
+
+    res.status(201).json(badges);
+})
 
 // app.patch('/api/team/:id', (req, res) => {
 //     const pokemonID = +req.params.id

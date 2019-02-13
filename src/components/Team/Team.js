@@ -17,14 +17,14 @@ class Team extends Component {
                     <h3>{pokemon.name}</h3>
                     <p>{pokemon.level}</p>
                     <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-                    <div>
+                    {/* <div>
                         <button
                             type="button"
                             onClick={() => this.levelUp(pokemon.id)}
                         >
                             Train
                         </button>
-                    </div>
+                    </div> */}
                     <div>
                         <button
                             type="button"
@@ -46,12 +46,12 @@ class Team extends Component {
         );
     }
 
-    levelUp(id) {
-        // axios.patch('http://localhost:3002/api/team/' + id)
-        //     .then(response => {
-        //         this.fetchPokemon(response.data)
-        //     })
-    }
+    // levelUp(id) {
+    //     // axios.patch('http://localhost:3002/api/team/' + id)
+    //     //     .then(response => {
+    //     //         this.fetchPokemon(response.data)
+    //     //     })
+    // }
 
     removeFromTeam(id) {
         axios.delete('http://localhost:3002/api/team/' + id)
